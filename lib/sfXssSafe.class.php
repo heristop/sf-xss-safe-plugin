@@ -25,14 +25,13 @@ class sfXssSafe
     
     if (!$purifier)
     {
-      $hasCustom    = false;
       $elements     = array();
       $attributes   = array();
   
       // sets configuration
-      $config        = HTMLPurifier_Config::createDefault();
-      $definitions   = sfConfig::get('app_sfXssSafePlugin_definition');
-	  
+      $config       = HTMLPurifier_Config::createDefault();
+      $definitions  = sfConfig::get('app_sfXssSafePlugin_definition');
+    
       if (!empty($definitions))
       {
         foreach ($definitions as $def => $conf)
@@ -53,12 +52,11 @@ class sfXssSafe
                 {
                   $attributes = $values;
                 }
-                $hasCustom = true;
               }
               else
               {
                 if ($def == 'AutoFormat' && 
-				          $directive == 'Custom' &&
+                  $directive == 'Custom' &&
                   !class_exists("HTMLPurifier_Injector_$values"))
                 {
                   continue;
@@ -70,7 +68,7 @@ class sfXssSafe
           }
         }
       }
-  
+      
       // deactivated cache for dev environment
       if (in_array(sfConfig::get('sf_environment'), array('dev', 'test')))
       {
@@ -82,55 +80,53 @@ class sfXssSafe
         // sets the cache directory into Symfony cache directory
         $config->set(sprintf("%s.%s", 'Cache', 'DefinitionImpl'), sfConfig::get('sf_cache_dir'));
       }
-  
-      if ($hasCustom)
+      
+      //$def = $config->getHTMLDefinition(true);
+      if ($def = $config->maybeGetRawHTMLDefinition())
       {
-				if ($def = $config->maybeGetRawHTMLDefinition()) 
-				{
-					// adds custom elements
-					if (!empty($elements))
-					{
-						foreach ($elements as $name => $element)
-						{
-							$name = strtolower($name);
-							${$name} = $def->addElement(
-								$name,
-								$element['type'],
-								$element['contents'],
-								$element['attr_includes'],
-								$element['attr']
-							);
-							
-							$factory = 'HTMLPurifier_AttrTransform_'.ucfirst($name).'Validator';
-							if (class_exists($factory))
-							{
-								${$name}->attr_transform_post[] = new $factory();
-							}
-						}
-					}
-				}
-		    
+        // adds custom elements
+        if (!empty($elements))
+        {
+          foreach ($elements as $name => $element)
+          {
+            $name = strtolower($name);
+            ${$name} = $def->addElement(
+              $name,
+              $element['type'],
+              $element['contents'],
+              $element['attr_includes'],
+              $element['attr']
+            );
+            
+            $factory = 'HTMLPurifier_AttrTransform_'.ucfirst($name).'Validator';
+            if (class_exists($factory))
+            {
+              ${$name}->attr_transform_post[] = new $factory();
+            }
+          }
+        }
+        
         // adds custom attributs
         if (!empty($attributes))
         {
           foreach ($attributes as $name => $attr)
           {
-						$name = strtolower($name);
-						${$name} = $def->addAttribute(
-							$name,
-							$attr['attr_name'],
-							$attr['def']
-						);
-		      }
+            $name = isset($attr['tag']) ? strtolower($attr['tag']) : strtolower($name);
+            ${$name} = $def->addAttribute(
+              $name,
+              $attr['attr_name'],
+              $attr['def']
+            );
+          }
         }
       }
-  
+      
       $purifier = new HTMLPurifier($config);
     }
     
     $cleanHtml = $purifier->purify($dirtyHtml);
-    
     restore_error_handler();
+    
     return $cleanHtml;
   }
   
