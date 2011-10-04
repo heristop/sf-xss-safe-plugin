@@ -193,7 +193,7 @@ Finally, clear your cache to enable the autoloading Symfony feature to find the 
 
 ## Changelog ##
 
-### 2011-09-28 | 1.1.0 ### 
+### 2011-10-04 | 1.1.0 ### 
 
  * heristop : Allows multiple attributes to one tag
 
