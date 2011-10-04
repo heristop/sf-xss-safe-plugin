@@ -6,7 +6,7 @@ require_once dirname(__FILE__).'/../../../../test/bootstrap/unit.php';
 //$definitions = sfConfig::get('app_sfXssSafePlugin_definition');
 //var_export($definitions);
 
-$configuration = ProjectConfiguration::getApplicationConfiguration('frontend', 'dev', false);
+$configuration = ProjectConfiguration::getApplicationConfiguration('frontend', 'test', true);
 
 // add filters to the default configuration
 $definitions = array(

@@ -78,7 +78,7 @@ class sfXssSafe
       else
       {
         // sets the cache directory into Symfony cache directory
-        $config->set(sprintf("%s.%s", 'Cache', 'DefinitionImpl'), sfConfig::get('sf_cache_dir'));
+        $config->set(sprintf("%s.%s", 'Cache', 'SerializerPath'), sfConfig::get('sf_cache_dir'));
       }
       
       //$def = $config->getHTMLDefinition(true);
