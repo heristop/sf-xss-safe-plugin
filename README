@@ -196,6 +196,7 @@ Finally, clear your cache to enable the autoloading Symfony feature to find the 
 ### 2011-10-04 | 1.1.0 ### 
 
  * heristop : Allows multiple attributes to one tag
+ * heristop : Uses Cache.SerializerPath option instead of DefinitionImpl
 
 ### 2011-08-26 | 1.0.0 ### 
 
