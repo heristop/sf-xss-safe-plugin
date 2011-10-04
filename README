@@ -14,7 +14,7 @@ The `sfXssSafePlugin` allows to clean a string to prevent XSS attacks. It provid
     
 or
     
-    > php symfony plugin:install sfXssSafePlugin --release=0.9.5
+    > php symfony plugin:install sfXssSafePlugin --release=1.1.0
 
 ### Witout PEAR ###
 
@@ -192,6 +192,10 @@ There is also an auto-format injector that we called `AddParam` in our example.
 Finally, clear your cache to enable the autoloading Symfony feature to find the new classes.
 
 ## Changelog ##
+
+### 2011-10-04 ### 
+
+ * heristop : Implemented cache warmer
 
 ### 2011-10-04 | 1.1.0 ### 
 
